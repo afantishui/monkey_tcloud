@@ -221,7 +221,7 @@ class PerformanceRunner(Process):
         # 开始执行
         logger.info('({}) 开始运行 performance 测试'.format(self.performance.device.device_id))
 
-        command = 'python3 -m airtest run {} --device Android://127.0.0.1:5037/{} ' \
+        command = 'python -m airtest run {} --device Android://127.0.0.1:5037/{} ' \
             '> {}_{}.log'.format(case_path, self.performance.device.device_id, self.local_performance_path, test_name)
         logger.info('({}) 开始运行 性能 测试'.format(self.performance.device.device_id))
 
@@ -233,7 +233,7 @@ class PerformanceRunner(Process):
             logger.info('({}) 开始运行 性能 测试 init'.format(self.performance.device.device_id))
             case_path = '{}/{}'.format(self.performance.config.test_envs.get('root'),
                                        self.performance.config.test_envs.get('setup').get('path'))
-            command = 'python3 -m airtest run {} --device Android://127.0.0.1:5037/{} ' \
+            command = 'python -m airtest run {} --device Android://127.0.0.1:5037/{} ' \
                       ''.format(case_path, self.performance.device.device_id)
             p = self.adb_tool.run_performance(command)
             result = self.adb_tool.output(p)
