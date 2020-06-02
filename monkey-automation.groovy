@@ -37,16 +37,18 @@ node('stf'){
     stage('checkout code'){
         print('=================> 拉取代码  <=================')
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/tsbxmw/monkey_tcloud']]])
-        sh 'ls'
+        bat 'dir'
         print('=================> 拉取代码  <=================')
     }
 
     stage('运行测试 - Monkey'){
       if (installAppRequired == "true" || installAppRequired == true){
       //这里默认使用 python3 运行脚本，注意修改 python 版本
-          bat 'python run.py run -dn=' + deviceName + ' -pn=' + packageName + ' -rt=' + runTime + ' -adu="' + appDownloadUrl + '" -daa=' + defaultAppActivity + ' -mid=' + monkeyId + ' -tid=' + taskId + ' -turl=' + tcloudUrl + ' -rm=' + runMode + ' -iar=' + installAppRequired
+          //bat 'python run.py run -dn=' + deviceName + ' -pn=' + packageName + ' -rt=' + runTime + ' -adu="' + appDownloadUrl + '" -daa=' + defaultAppActivity + ' -mid=' + monkeyId + ' -tid=' + taskId + ' -turl=' + tcloudUrl + ' -rm=' + runMode + ' -iar=' + installAppRequired
+          bat """python run.py run -dn=${deviceName} -pn=${packageName} -rt=${runTime} -adu=${appDownloadUrl} -daa=${defaultAppActivity} -mid=${monkeyId} -tid=${taskId} -turl=${tcloudUrl} -rm=${runMode} -iar=${installAppRequired}"""
       }else{
-          bat 'python run.py run -dn=' + deviceName + ' -pn=' + packageName + ' -rt=' + runTime + ' -adu="' + appDownloadUrl + '" -daa=' + defaultAppActivity + ' -mid=' + monkeyId + ' -tid=' + taskId + ' -turl=' + tcloudUrl + ' -rm=' + runMode
+          //bat 'python run.py run -dn=' + deviceName + ' -pn=' + packageName + ' -rt=' + runTime + ' -adu="' + appDownloadUrl + '" -daa=' + defaultAppActivity + ' -mid=' + monkeyId + ' -tid=' + taskId + ' -turl=' + tcloudUrl + ' -rm=' + runMode
+          bat """python run.py run -dn=${deviceName} -pn=${packageName} -rt=${runTime} -adu=${appDownloadUrl} -daa=${defaultAppActivity} -mid=${monkeyId} -tid=${taskId} -turl=${tcloudUrl} -rm=${runMode}"""
       }
     }
 
